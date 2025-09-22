@@ -52,15 +52,37 @@
         </button>
       </div>
       <div class="menu">
-        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
-</svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="36"
+          height="36"
+          fill="currentColor"
+          class="bi bi-list"
+          viewBox="0 0 16 16"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"
+          />
+        </svg>
         <ul class="nav-links">
-          <a href="https://id.layers.digital/?context=web" target="_blank"><li>Agenda Digital</li></a>
-          <a href="https://conexaodigital.sesisp.org.br/portal/" target="_blank"><li>Conexão Digital</li></a>
-          <a href="https://www.conectasesi.com.br/login/?redirect=%2Flivros%2Fgrupos" target="_blank"><li>Conecta SESI</li></a>
+          <a href="https://id.layers.digital/?context=web" target="_blank"
+            ><li>Agenda Digital</li></a
+          >
+          <a href="https://conexaodigital.sesisp.org.br/portal/" target="_blank"
+            ><li>Conexão Digital</li></a
+          >
+          <a
+            href="https://www.conectasesi.com.br/login/?redirect=%2Flivros%2Fgrupos"
+            target="_blank"
+            ><li>Conecta SESI</li></a
+          >
           <a href="https://www.sesisp.org.br/" target="_blank"><li>SESI</li></a>
-          <a href="https://www.sp.senai.br/curso/tecnico-em-desenvolvimento-de-sistemas/102655" target="_blank"><li>Curso DEV</li></a>
+          <a
+            href="https://www.sp.senai.br/curso/tecnico-em-desenvolvimento-de-sistemas/102655"
+            target="_blank"
+            ><li>Curso DEV</li></a
+          >
         </ul>
       </div>
     </header>
@@ -127,6 +149,21 @@
     </main>
 
     <script>
+      // --- Menu hamburguer ---
+      const menuIcon = document.querySelector(".menu svg");
+      const navLinks = document.querySelector(".nav-links");
+
+      menuIcon.addEventListener("click", () => {
+        navLinks.classList.toggle("show");
+      });
+
+      // Fecha o menu quando um link é clicado
+      document.querySelectorAll(".nav-links a").forEach((link) => {
+        link.addEventListener("click", () => {
+          navLinks.classList.remove("show");
+        });
+      });
+
       // --- Supabase ---
       const SUPABASE_URL = "https://unmnfifouemowyrkdjdj.supabase.co";
       const SUPABASE_ANON_KEY =
