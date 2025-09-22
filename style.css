@@ -221,26 +221,6 @@ ul li:hover {
 }
 
 @media (max-width: 768px) {
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 70px; /* abaixo do header */
-    right: 10px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    z-index: 1000;
-  }
-
-  .nav-links.show {
-    display: flex;
-  }
-
-  .menu svg {
-    cursor: pointer;
-  }
   .weather-info {
     flex-direction: column;
     gap: 18px;
