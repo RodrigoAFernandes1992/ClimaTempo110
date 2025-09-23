@@ -1,298 +1,221 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Clima Agora</title>
-    <link rel="stylesheet" href="./style.css" />
-    <link
-      rel="icon"
-      type="image/x-icon"
-      href="./Logo Clima Tempo SESI Bebedouro.png"
-    />
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-  </head>
-  <body>
-    <header class="topbar">
-      <a href="https://www.sesisp.org.br/" target="_blank" rel="noopener">
-        <img
-          src="./LogoClimaBebedouro.png"
-          alt="Logo projeto"
-          srcset=""
-          width="100px"
-          height="100px"
-        />
-      </a>
-      <!-- Campo de busca de cidade -->
-      <div
-        class="city-selector"
-        style="display: flex; gap: 8px; align-items: center"
-      >
-        <input
-          type="text"
-          id="cidadeInput"
-          placeholder="Digite a cidade..."
-          style="padding: 5px; border-radius: 8px; border: 1px solid #ccc"
-        />
-        <button
-          id="buscarCidade"
-          style="
-            padding: 6px 10px;
-            border: none;
-            border-radius: 8px;
-            background: #4a90e2;
-            color: white;
-            cursor: pointer;
-          "
-        >
-          Buscar
-        </button>
-      </div>
-      <div class="menu">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="36"
-          height="36"
-          fill="currentColor"
-          class="bi bi-list"
-          viewBox="0 0 16 16"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"
-          />
-        </svg>
-        <ul class="nav-links">
-          <a href="https://id.layers.digital/?context=web" target="_blank"
-            ><li>Agenda Digital</li></a
-          >
-          <a href="https://conexaodigital.sesisp.org.br/portal/" target="_blank"
-            ><li>Conexão Digital</li></a
-          >
-          <a
-            href="https://www.conectasesi.com.br/login/?redirect=%2Flivros%2Fgrupos"
-            target="_blank"
-            ><li>Conecta SESI</li></a
-          >
-          <a href="https://www.sesisp.org.br/" target="_blank"><li>SESI</li></a>
-          <a
-            href="https://www.sp.senai.br/curso/tecnico-em-desenvolvimento-de-sistemas/102655"
-            target="_blank"
-            ><li>Curso DEV</li></a
-          >
-        </ul>
-      </div>
-    </header>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clima Agora</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="icon" type="image/x-icon" href="./LogoClimaBebedouro.png">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a href="https://www.sesisp.org.br/" target="_blank" rel="noopener">
+      <img src="./LogoClimaBebedouro.png" alt="Logo projeto" width="100" height="100">
+    </a>
+    <div class="city-selector">
+      <input type="text" id="cidadeInput" placeholder="Digite a cidade...">
+      <button id="buscarCidade">Buscar</button>
+    </div>
+    <div class="menu">
+      <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+      </svg>
+      <ul class="nav-links">
+        <a href="https://id.layers.digital/?context=web" target="_blank"><li>Agenda Digital</li></a>
+        <a href="https://conexaodigital.sesisp.org.br/portal/" target="_blank"><li>Conexão Digital</li></a>
+        <a href="https://www.conectasesi.com.br/login/?redirect=%2Flivros%2Fgrupos" target="_blank"><li>Conecta SESI</li></a>
+        <a href="https://www.sesisp.org.br/" target="_blank"><li>SESI</li></a>
+        <a href="https://www.sp.senai.br/curso/tecnico-em-desenvolvimento-de-sistemas/102655" target="_blank"><li>Curso DEV</li></a>
+      </ul>
+    </div>
+  </header>
 
-    <main class="dashboard">
-      <div class="clima-row">
-        <div class="weather-card">
-          <div class="weather-info">
-            <div class="weather-item">
-              <h2>Bebedouro, SP</h2>
-              <p>--</p>
-            </div>
-            <div class="weather-item">
-              <h1>--°</h1>
-            </div>
-            <div class="weather-item details">
-              <p>Última leitura do sistema</p>
-            </div>
+  <main class="dashboard">
+    <div class="clima-row">
+      <div class="weather-card">
+        <div class="weather-info">
+          <div class="weather-item">
+            
+            <h2>Bebedouro, SP</h2>
+            <p>--</p>
+          </div>
+          <div class="weather-item">
+            <h1>--°</h1>
+          </div>
+          <div class="weather-item details">
+            <p>Última leitura do sistema</p>
           </div>
         </div>
       </div>
-      <h2 style="color: #0077b6; text-align: center; font-size: 32px">
-        Clima Atual na Escola
-      </h2>
-      <div class="graficos-row">
-        <div class="chart-card">
-          <h3>Probabilidade de Chuva (%)</h3>
-          <canvas id="graficoChuva"></canvas>
-        </div>
-        <div class="chart-card">
-          <h3>Temperatura (°C)</h3>
-          <canvas id="graficoTemperatura"></canvas>
-        </div>
-        <div class="chart-card">
-          <h3>Pressão Atmosférica (hPa)</h3>
-          <canvas id="graficoPressao"></canvas>
-        </div>
+    </div>
+
+    <h2 style="color: #0077b6; text-align: center; font-size: 32px">Clima Atual na Escola</h2>
+
+    <div class="graficos-row">
+      <div class="chart-card">
+        <h3>Probabilidade de Chuva (%)</h3>
+        <canvas id="graficoChuva"></canvas>
       </div>
-      <div class="logo">
-        <a
-          href="https://www.sp.senai.br/curso/tecnico-em-desenvolvimento-de-sistemas/102655"
-          target="_blank"
-          rel="noopener"
-        >
-          <img
-            src="./SESISENAI.png"
-            alt="Logo projeto"
-            srcset=""
-            width="150px"
-            height="40px"
-          />
-        </a>
+      <div class="chart-card">
+        <h3>Temperatura (°C)</h3>
+        <canvas id="graficoTemperatura"></canvas>
       </div>
-      <section class="about-project">
-        <h3>Sobre o Projeto</h3>
-        <p>
-          O <strong>Clima+</strong> foi desenvolvido pela Escola SESI CE 110,
-          pelos alunos do 3º ano do Ensino Médio, com o objetivo de fornecer
-          informações sobre <strong>probabilidade de chuva</strong>,
-          <strong>pressão</strong> e <strong>temperatura</strong> de forma clara
-          e acessível para a comunidade.
-        </p>
-      </section>
-    </main>
+      <div class="chart-card">
+        <h3>Pressão Atmosférica (hPa)</h3>
+        <canvas id="graficoPressao"></canvas>
+      </div>
+    </div>
 
-    <script>
-      // --- Menu hamburguer ---
-      const menuIcon = document.querySelector(".menu svg");
-      const navLinks = document.querySelector(".nav-links");
+    <div class="logo">
+      <a href="https://www.sp.senai.br/curso/tecnico-em-desenvolvimento-de-sistemas/102655" target="_blank" rel="noopener">
+        <img src="./SESISENAI.png" alt="Logo projeto" width="150" height="40">
+      </a>
+    </div>
+<section class="about-project">
+  <h3>Sobre o Projeto</h3>
+  <div class="about-content" style="display: flex; flex-wrap: wrap; align-items: center; gap: 20px; padding:10px;">
+    <div class="about-text" style="flex: 1; min-width: 280px;">
+      <p>
+        O <strong>Clima+</strong> é um projeto inovador da Escola SESI CE 110, desenvolvido pelos alunos do 3º ano do Ensino Médio. Ele oferece informações precisas e acessíveis sobre <strong>probabilidade de chuva</strong>, <strong>pressão atmosférica</strong> e <strong>temperatura</strong> para a comunidade.
+      </p>
+      <p>
+        <strong>Alunos responsáveis:</strong> Estela Camila, Maria Eduarda, Nathalia Gabriele, Stefany Carolline, Maria Luiza, Kauan Henrique, Kauan Rosendo, Ana Beatriz e Laís Rosa.
+      </p>
+      <p>
+        <strong>Professores responsáveis:</strong> Rodrigo Antonio Fernandes e Bruno Eduardo Medeiros.
+      </p>
+      <p>
+        Com o <strong>Clima+</strong>, buscamos transformar a meteorologia escolar em algo <em>claro, intuitivo e envolvente</em>, conectando aprendizado e comunidade.
+      </p>
+    </div>
+    <div class="about-image" style="flex: 1; min-width: 280px; text-align: center;">
+      <img src="./IMG_7008.JPEG" alt="Professor com alunos" style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" />
+    </div>
+  </div>
+</section>
 
-      menuIcon.addEventListener("click", () => {
-        navLinks.classList.toggle("show");
-      });
+  </main>
 
-      // Fecha o menu quando um link é clicado
-      document.querySelectorAll(".nav-links a").forEach((link) => {
-        link.addEventListener("click", () => {
-          navLinks.classList.remove("show");
-        });
-      });
+  <script>
+    // --- Menu hamburguer ---
+    const menuIcon = document.querySelector(".menu svg");
+    const navLinks = document.querySelector(".nav-links");
+    menuIcon.addEventListener("click", () => navLinks.classList.toggle("show"));
+    document.querySelectorAll(".nav-links a").forEach((link) => {
+      link.addEventListener("click", () => navLinks.classList.remove("show"));
+    });
 
-      // --- Supabase ---
-      const SUPABASE_URL = "https://unmnfifouemowyrkdjdj.supabase.co";
-      const SUPABASE_ANON_KEY =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVubW5maWZvdWVtb3d5cmtkamRqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc0MjI4MDcsImV4cCI6MjA3Mjk5ODgwN30.AZAm7yidblij9Wqm-wRbM8qUmFSq8YoWSrlHiJSKDu8";
-      const supabase = window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_ANON_KEY
-      );
+    // --- Supabase ---
+    const SUPABASE_URL = "https://unmnfifouemowyrkdjdj.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVubW5maWZvdWVtb3d5cmtkamRqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc0MjI4MDcsImV4cCI6MjA3Mjk5ODgwN30.AZAm7yidblij9Wqm-wRbM8qUmFSq8YoWSrlHiJSKDu8";
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-      async function carregarClimaSupabase() {
-        try {
-          const { data, error } = await supabase
-            .from("sensores")
-            .select("*")
-            .order("id_sensores", { ascending: false })
-            .limit(5);
+    // Variáveis globais para os gráficos
+    let chartChuva, chartTemp, chartPressao;
 
-          if (error) {
-            console.error("Erro Supabase:", error);
-            return;
-          }
+    async function carregarClimaSupabase() {
+      try {
+        const { data, error } = await supabase
+          .from("sensores")
+          .select("*")
+          .order("id_sensores", { ascending: false })
+          .limit(5);
 
-          if (!data || data.length === 0) return;
+        if (error) { console.error("Erro Supabase:", error); return; }
+        if (!data || data.length === 0) return;
 
-          atualizarGraficos(data.reverse());
-        } catch (err) {
-          console.error("Erro ao carregar clima Supabase:", err);
-        }
-      }
+        const ultimoClima = data[0];
 
-      function atualizarGraficos(dados) {
-        const labels = dados.map((_, i) => `#${i + 1}`);
-        const chuva = dados.map((d) => d.chuva ?? 0);
-        const temp = dados.map((d) => d.temperatura ?? 0);
-        const pressao = dados.map((d) => d.pressao ?? 0);
-
-        const ctxChuva = document.getElementById("graficoChuva");
-        if (ctxChuva)
-          new Chart(ctxChuva, {
-            type: "bar",
-            data: {
-              labels,
-              datasets: [
-                { label: "Chuva (%)", data: chuva, backgroundColor: "#4a90e2" },
-              ],
-            },
-          });
-
-        const ctxTemp = document.getElementById("graficoTemperatura");
-        if (ctxTemp)
-          new Chart(ctxTemp, {
-            type: "line",
-            data: {
-              labels,
-              datasets: [
-                {
-                  label: "Temperatura (°C)",
-                  data: temp,
-                  borderColor: "#ff5733",
-                  fill: false,
-                },
-              ],
-            },
-          });
-
-        const ctxPressao = document.getElementById("graficoPressao");
-        if (ctxPressao)
-          new Chart(ctxPressao, {
-            type: "line",
-            data: {
-              labels,
-              datasets: [
-                {
-                  label: "Pressão (hPa)",
-                  data: pressao,
-                  borderColor: "#33c1ff",
-                  fill: false,
-                },
-              ],
-            },
-          });
-      }
-
-      // --- Previsão online ---
-      const API_KEY = "c7546ea11df04094ca9b44af54b43949";
-      let cidadeSelecionada = "Bebedouro,BR";
-
-      async function carregarClimaOnline() {
-        try {
-          const resposta = await fetch(
-            `https://api.openweathermap.org/data/2.5/weather?q=${cidadeSelecionada}&units=metric&lang=pt_br&appid=${API_KEY}`
-          );
-          const dados = await resposta.json();
-          if (dados.cod !== 200) {
-            alert("Cidade não encontrada. Tente novamente!");
-            return;
-          }
-
-          document.querySelector(
-            ".weather-item h2"
-          ).textContent = `${dados.name}, ${dados.sys.country}`;
-          document.querySelector(".weather-item h1").textContent =
-            Math.round(dados.main.temp) + "°";
-          document.querySelector(".weather-item p").textContent =
-            dados.weather[0].description;
-          document.querySelector(".weather-item.details").innerHTML = `
+        document.querySelector(".weather-item h1").textContent = (ultimoClima.temperatura ?? "--") + "°";
+        document.querySelector(".weather-item.details").innerHTML = `
           <p>Última leitura do sistema</p>
-          <p>Pressão: <span>${dados.main.pressure} hPa</span></p>
-          <p>Umidade: <span>${dados.main.humidity}%</span></p>
+          <p>Pressão: <span>${ultimoClima.pressao ?? "--"} hPa</span></p>
         `;
-        } catch (err) {
-          console.error("Erro ao carregar clima online:", err);
-        }
-      }
 
-      // --- Eventos de busca de cidade ---
-      document.getElementById("buscarCidade").addEventListener("click", () => {
-        const input = document.getElementById("cidadeInput").value.trim();
-        if (input) {
-          cidadeSelecionada = input + ",BR";
-          carregarClimaOnline();
-        }
+        atualizarGraficos(data.reverse());
+      } catch (err) {
+        console.error("Erro ao carregar clima Supabase:", err);
+      }
+    }
+
+    function atualizarGraficos(dados) {
+      const labels = dados.map((_, i) => `Dados ${i + 1}`);
+      const chuva = dados.map(d => Math.round(((4095 - (d.chuva ?? 0)) / 4095) * 100));
+      const temp = dados.map(d => d.temperatura ?? 0);
+      const pressao = dados.map(d => d.pressao ?? 0);
+
+      // Destruir gráficos antigos antes de criar novos
+      if (chartChuva) chartChuva.destroy();
+      if (chartTemp) chartTemp.destroy();
+      if (chartPressao) chartPressao.destroy();
+
+      chartChuva = new Chart(document.getElementById("graficoChuva"), {
+        type: "line",
+        data: { labels, datasets: [{ label: "Chuva (%)", data: chuva, backgroundColor: "#4a90e2" }] },
+        options: { scales: { y: { beginAtZero: true, max: 100 } } }
       });
 
-      // --- Inicialização ---
-      carregarClimaSupabase();
-      carregarClimaOnline();
-      setInterval(carregarClimaSupabase, 20000);
-      setInterval(carregarClimaOnline, 20000);
-    </script>
-  </body>
+      chartTemp = new Chart(document.getElementById("graficoTemperatura"), {
+        type: "line",
+        data: { labels, datasets: [{ label: "Temperatura (°C)", data: temp, borderColor: "#ff5733", fill: false }] }
+      });
+
+      chartPressao = new Chart(document.getElementById("graficoPressao"), {
+        type: "line",
+        data: { labels, datasets: [{ label: "Pressão (hPa)", data: pressao, borderColor: "#33c1ff", fill: false }] }
+      });
+    }
+
+    // --- Clima Online (OpenWeather) ---
+    const API_KEY = "c7546ea11df04094ca9b44af54b43949";
+    let cidadeSelecionada = "Bebedouro,BR";
+
+async function carregarClimaOnline() {
+  try {
+    const resposta = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?q=${cidadeSelecionada}&units=metric&lang=pt_br&appid=${API_KEY}`
+    );
+    const dados = await resposta.json();
+
+    if (dados.cod !== 200) {
+      alert("Cidade não encontrada!");
+      return;
+    }
+
+    // Atualiza nome da cidade e descrição
+    document.querySelector(".weather-item h2").textContent = `${dados.name}, ${dados.sys.country}`;
+    document.querySelector(".weather-item p").textContent = dados.weather[0].description;
+
+    // Atualiza temperatura principal
+    document.querySelector(".weather-item h1").textContent = `${Math.round(dados.main.temp)}°`;
+
+    // Atualiza detalhes (temperatura, pressão, etc.)
+    document.querySelector(".weather-item.details").innerHTML = `
+      <p>Última leitura do sistema</p>
+      <p>Pressão: <span>${dados.main.pressure} hPa</span></p>
+      <p>Umidade: <span>${dados.main.humidity}%</span></p>
+    `;
+  } catch (err) {
+    console.error("Erro ao carregar clima online:", err);
+  }
+}
+    // Eventos de busca
+    document.getElementById("buscarCidade").addEventListener("click", () => {
+      const input = document.getElementById("cidadeInput").value.trim();
+      if (input) {
+        cidadeSelecionada = input + ", BR";
+        carregarClimaOnline();
+      }
+    });
+
+    // Inicialização
+    carregarClimaSupabase();
+    carregarClimaOnline();
+    setInterval(carregarClimaSupabase, 10000);
+    setInterval(carregarClimaOnline, 10000);
+  </script>
+</body>
 </html>
